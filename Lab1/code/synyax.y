@@ -169,4 +169,8 @@ Args : Exp COMMA Args   {$$ = createNode(@$.first_line, non_terminal, "Args", 3,
 ;
 %%
 
-
+// 语法错误
+void yyerror(const char* msg){
+    fprintf(stderr, "Error type B at line %d: %s.\n", yylineno, msg);
+    return;
+}

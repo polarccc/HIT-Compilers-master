@@ -1,12 +1,13 @@
 
 
-# 编译器设定和编译选项
 CC = gcc
 FLEX = flex
 BISON = bison
 CFLAGS = -std=c99
 
-# 编译目标：src目录下的所有.c文件
+# conda install -c conda-forge flex 
+# conda install -c conda-forge bison
+
 CFILES = $(shell find ./ -name "*.c")
 OBJS = $(CFILES:.c=.o)
 LFILE = $(shell find ./ -name "*.l")
@@ -30,18 +31,24 @@ syntax-c: $(YFILE)
 
 -include $(patsubst %.o, %.d, $(OBJS))
 
-# 定义的一些伪目标
 .PHONY: clean test
-test:
-	# ./parser ../test/test1.cmm
-	# ./parser ../test/test2.cmm
-	# ./parser ../test/test3.cmm
-	# ./parser ../test/test4.cmm
-	# ./parser ../test/test5.cmm
-	# ./parser ../test/test6.cmm
-	# ./parser ../test/test7.cmm
-	# ./parser ../test/test8.cmm
-	# ./parser ../test/test9.cmm
+# 定义测试文件列表
+TEST_FILES = $(wildcard ../test/test*.cmm)
+
+# 定义测试目标模式规则
+test_%: ../test/test%.cmm
+	./parser $<
+
+test_all:
+	./parser ../test/test1.cmm
+	./parser ../test/test2.cmm
+	./parser ../test/test3.cmm
+	./parser ../test/test4.cmm
+	./parser ../test/test5.cmm
+	./parser ../test/test6.cmm
+	./parser ../test/test7.cmm
+	./parser ../test/test8.cmm
+	./parser ../test/test9.cmm
 	./parser ../test/test10.cmm
 clean:
 	rm -f parser lex.yy.c syntax.tab.c syntax.tab.h syntax.output

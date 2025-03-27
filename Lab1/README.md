@@ -18,7 +18,9 @@
 * 测试：
 
   ```
-  make test //在code目录下使用make test命令进行测试 即./parser ../test/test.cmm
+  make test_all   //在code目录下使用make test命令对全部用例进行测试
+  make test_[num] //在code目录下使用make test命令对第[num]个进行测试  
+  即./parser ../test/test.cmm
   ```
 
 * 其他
@@ -26,5 +28,8 @@
   ```
   make clean //在code目录下使用make clean命令清除中间文件
   ```
+
+* 还存在的问题：对于空行，无";"的情况还存在不能正确识别行号的问题
+
 附：C--语言文法：
 ![alt text](C--文法.png)
