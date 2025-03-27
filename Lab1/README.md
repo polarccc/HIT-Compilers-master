@@ -1,4 +1,6 @@
-# Lab1-1190201303-王艺丹
+# 编译原理实验1 
+
+## 在https://github.com/wyd010616/HIT-Compilers基础上修改
 
 ### 文件目录：
 
