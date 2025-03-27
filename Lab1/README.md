@@ -1,6 +1,6 @@
 # 编译原理实验1 
 
-## 在https://github.com/wyd010616/HIT-Compilers基础上修改
+## 在https://github.com/wyd010616/HIT-Compilers 基础上修改
 
 ### 文件目录：
 
@@ -26,3 +26,5 @@
   ```
   make clean //在code目录下使用make clean命令清除中间文件
   ```
+附：C--语言文法：
+![alt text](C--文法.png)
