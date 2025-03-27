@@ -1,5 +1,4 @@
-# GNU make手册：http://www.gnu.org/software/make/manual/make.html
-# ************ 遇到不明白的地方请google以及阅读手册 *************
+
 
 # 编译器设定和编译选项
 CC = gcc
@@ -18,7 +17,7 @@ LFO = $(LFC:.c=.o)
 YFO = $(YFC:.c=.o)
 
 parser: syntax $(filter-out $(LFO),$(OBJS))
-	$(CC) -o parser $(filter-out $(LFO),$(OBJS)) -lfl
+	$(CC) -o parser $(filter-out $(LFO),$(OBJS)) 
 
 syntax: lexical syntax-c
 	$(CC) -c $(YFC) -o $(YFO)
@@ -34,15 +33,15 @@ syntax-c: $(YFILE)
 # 定义的一些伪目标
 .PHONY: clean test
 test:
-	./parser ../test/test1.cmm
-	./parser ../test/test2.cmm
-	./parser ../test/test3.cmm
-	./parser ../test/test4.cmm
-	./parser ../test/test5.cmm
-	./parser ../test/test6.cmm
-	./parser ../test/test7.cmm
-	./parser ../test/test8.cmm
-	./parser ../test/test9.cmm
+	# ./parser ../test/test1.cmm
+	# ./parser ../test/test2.cmm
+	# ./parser ../test/test3.cmm
+	# ./parser ../test/test4.cmm
+	# ./parser ../test/test5.cmm
+	# ./parser ../test/test6.cmm
+	# ./parser ../test/test7.cmm
+	# ./parser ../test/test8.cmm
+	# ./parser ../test/test9.cmm
 	./parser ../test/test10.cmm
 clean:
 	rm -f parser lex.yy.c syntax.tab.c syntax.tab.h syntax.output

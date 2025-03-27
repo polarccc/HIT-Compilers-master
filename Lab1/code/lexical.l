@@ -14,10 +14,11 @@
         yycolumn += yyleng;
 %}
 
-%option yylineno // 启用 yylineno 选项，使 Flex 自动维护当前行号
-INT 0|([1-9][0-9]*)     // 十进制整数
-OCT 0[0-7]+             // 八进制整数
-HEX 0[xX][0-9a-fA-F]+   // 十六进制整数
+%option noyywrap
+%option yylineno 
+INT 0|([1-9][0-9]*)     
+OCT 0[0-7]+             
+HEX 0[xX][0-9a-fA-F]+   
 DECERROR [0-9]+[a-wA-Wy-zY-Z]+[0-9a-dA-Df-zF-Z]*|[0-9]+[0-9]+[a-dA-Df-zF-Z]+[0-9]*[0-9a-dA-Df-zF-Z]*
 OCTERROR 0[0-7]*[8-9]+[0-9]*
 HEXERROR 0[xX][0-9a-fA-F]*[g-zG-Z]+[0-9a-zA-Z]*
@@ -102,7 +103,7 @@ TAB [\t]
 		}
         }
 	}
-// 词法错误
+
 {OCTERROR}  {printf("Error type A at Line %d: Illegal octal number \'%s\'\n", yylineno, yytext); yylval = NULL; lexical_error = 1; return ERRORNUM;}
 {HEXERROR} {printf("Error type A at Line %d: Illegal hexadecimal number \'%s\'\n", yylineno, yytext); yylval = NULL; lexical_error = 1; return ERRORNUM;}
 {DECERROR} {printf("Error type A at Line %d: Illegal decimal number \'%s\'\n", yylineno, yytext); yylval = NULL; lexical_error = 1; return ERRORNUM;}
