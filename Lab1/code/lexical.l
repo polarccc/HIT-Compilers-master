@@ -85,14 +85,14 @@ TAB [\t]
 {TAB}   {yycolumn += 3;}
 \n|\r {yycolumn = 1;}
 "//"    {
-            char c = input(); //丢弃该行全部内容
+            char c = input(); //直接丢弃该行全部内容
             while (c != '\n' && c != EOF) 
                 c = input();
         }
 "/*"    {
 	char a = input();
-	char b = input(); //必须是连续的'/*','*/'
-	while(a != '*' || b != '/') 
+	char b = input(); 
+	while(a != '*' || b != '/') //a,b滑动窗口检查
         {
         	a = b;
 		b = input();

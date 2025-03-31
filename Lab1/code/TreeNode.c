@@ -3,23 +3,23 @@ pNode createNode(int _lineno, Type _type, char* _value, int args, ...)
 {
     pNode currNode = (pNode)malloc(sizeof(TreeNode));
     assert(currNode != NULL);
-    currNode->value = (char*)malloc(sizeof(char) * (strlen(_value) + 1));// yytex为char*类型
+    currNode->value = (char*)malloc(sizeof(char) * (strlen(_value) + 1));
     assert(currNode->value != NULL);
     
-    currNode->firstChild = NULL; //左孩子
+    currNode->firstChild = NULL;  //左孩子
     currNode->nextSibling = NULL; //右兄弟
     currNode->lineno = _lineno;
     currNode->type = _type;
     strncpy(currNode->value, _value, strlen(_value)+1);
     
-    if(args > 0) // terminal 无孩子兄弟节点
+    if(args > 0) 
     {
         va_list ap;
         va_start(ap, args);
 	pNode tempNode = va_arg(ap, pNode);
 	currNode->firstChild = tempNode;
 	for (int i = 1; i < args; i++){	
-        	// get the first parameter to be the first child
+        	// 横向链接同级节点
         	tempNode->nextSibling = va_arg(ap, pNode);
 		if(tempNode->nextSibling != NULL)
                 	tempNode = tempNode->nextSibling;
@@ -64,15 +64,15 @@ void printTree(pNode root, int i) // lineno
             printf("TYPE: %s\n", tempNode->value);
         else if(tempNode->type == terminal_int)
             printf("INT: %d\n", atoi(tempNode->value));
-	else if(tempNode->type == terminal_hex)
+	    else if(tempNode->type == terminal_hex)
             printf("INT: %ld\n", strtol(tempNode->value,NULL,16));
-	else if(tempNode->type == terminal_oct)
+	    else if(tempNode->type == terminal_oct)
             printf("INT: %ld\n", strtol(tempNode->value,NULL,8));
         else if(tempNode->type == terminal_float)
             printf("FLOAT: %f\n", atof(tempNode->value));
         else if(tempNode->type == terminal_id)
             printf("ID: %s\n", tempNode->value);
-        printTree(tempNode->firstChild, i + 1); // 递归先序遍历左子树
+        printTree(tempNode->firstChild, i + 1); // 先序遍历左子树
         tempNode = tempNode->nextSibling;
         n = i;
     }
