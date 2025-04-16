@@ -15,6 +15,7 @@
 %}
 
 %option yylineno
+%option noyywrap
 INT 0|([1-9][0-9]*)
 DECERROR [0-9]+[a-wA-Wy-zY-Z]+[0-9a-dA-Df-zF-Z]*|[0-9]+[0-9]+[a-dA-Df-zF-Z]+[0-9]*[0-9a-dA-Df-zF-Z]*
 OCT 0[0-7]+

@@ -18,7 +18,7 @@ LFO = $(LFC:.c=.o)
 YFO = $(YFC:.c=.o)
 
 parser: syntax $(filter-out $(LFO),$(OBJS))
-	$(CC) -o parser $(filter-out $(LFO),$(OBJS)) -lfl
+	$(CC) -o parser $(filter-out $(LFO),$(OBJS)) 
 
 syntax: lexical syntax-c
 	$(CC) -c $(YFC) -o $(YFO)
@@ -33,7 +33,7 @@ syntax-c: $(YFILE)
 
 # 定义的一些伪目标
 .PHONY: clean test
-test:
+test_all:
 	./parser ../test/1.txt
 	./parser ../test/2.txt
 	./parser ../test/3.txt
@@ -48,7 +48,7 @@ test:
 	./parser ../test/12.txt
 	./parser ../test/13.txt
 	
-allTest:
+test_extra:
 	./parser ../test/14.txt
 	./parser ../test/15.txt
 	./parser ../test/16.txt

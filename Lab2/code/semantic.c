@@ -1,6 +1,30 @@
 #include "semantic.h"
+#include <execinfo.h>
+#include <stdlib.h>
+#include <stdio.h>
+
+#define MAX_FREED 10000
+static void* freed_types[MAX_FREED];
+static int freed_count = 0;
 
 pTable table;//全局符号表
+
+int already_freed(void* p) {
+    for (int i = 0; i < freed_count; ++i) {
+        if (freed_types[i] == p) return 1;
+    }
+    if (freed_count < MAX_FREED) {
+        freed_types[freed_count++] = p;
+    }
+    return 0;
+}
+
+
+void print_stacktrace() {
+    void *buffer[20];
+    int nptrs = backtrace(buffer, 20);
+    backtrace_symbols_fd(buffer, nptrs, 1); // 打印到 stdout
+}
 
 // Type functions
 pType newType(Kind kind, ...) {
@@ -67,6 +91,14 @@ pType copyType(pType src) {
 
 void deleteType(pType type) {
     assert(type != NULL);
+    if (type == NULL) return;
+    if (already_freed(type)) {
+        // printf("duplicate free of type=%p\n", (void*)type);
+        // print_stacktrace();  // 如果你还开着 print_stacktrace
+        return;
+    }
+    // printf("deleteType called, type=%p, type->kind = %d\n", (void*)type, type->kind);
+    // print_stacktrace();
     assert(type->kind == BASIC || type->kind == ARRAY ||
            type->kind == STRUCTURE || type->kind == FUNCTION);
     pFieldList temp = NULL;
