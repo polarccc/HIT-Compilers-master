@@ -1,3 +1,4 @@
+
 #ifndef SEMANTIC_H
 #define SEMENTIC_H
 
@@ -14,7 +15,7 @@ typedef struct stack* pStack;
 typedef struct table* pTable;
 
 typedef struct type {
-    Kind kind;
+    Kind kind; // 类型种类（基本类型、数组、结构体、函数）
     union {
         // 基本类型
         BasicType basic;
@@ -44,8 +45,8 @@ typedef struct fieldList {
 } FieldList;
 
 typedef struct tableItem {
-    int symbolDepth;
-    pFieldList field;
+    int symbolDepth;   // 符号的作用域深度
+    pFieldList field;  // 符号的字段列表
     pItem nextSymbol;  // 栈中同等深度的符号
     pItem nextHash;    // 处理hash冲突
 } TableItem;
@@ -59,7 +60,7 @@ typedef struct stack {
     int curStackDepth; //记录当前元素在栈中的深度
 } Stack;
 
-typedef struct table { //十字链表与open hashing
+typedef struct table { 
     pHash hash;
     pStack stack;
     //未命名结构体，词法分析中id不能为纯数字，所以将未命名结构体id暂时定义为int，同时可以处理冲突
@@ -68,31 +69,32 @@ typedef struct table { //十字链表与open hashing
 
 extern pTable table;
 
-// Type functions
+// 类型相关函数
 pType newType(Kind kind, ...);
 pType copyType(pType src);
 void deleteType(pType type);
 boolean checkType(pType type1, pType type2);
 void printType(pType type);
 
+// 字段列表相关函数
 pFieldList newFieldList(char* newName, pType newType);
 pFieldList copyFieldList(pFieldList src);
 void deleteFieldList(pFieldList fieldList);
 void setFieldListName(pFieldList p, char* newName);
 void printFieldList(pFieldList fieldList);
 
-
+// 符号表项相关函数
 pItem newItem(int symbolDepth, pFieldList pfield);
 void deleteItem(pItem item);
 boolean isStructDef(pItem src);
 
-// Hash functions
+// 散列表相关函数
 pHash newHash();
 void deleteHash(pHash hash);
 pItem getHashHead(pHash hash, int index);
 void setHashHead(pHash hash, int index, pItem newVal);
 
-// Stack functions
+// 栈相关函数
 pStack newStack();
 void deleteStack(pStack stack);
 void addStackDepth(pStack stack);
@@ -100,7 +102,7 @@ void minusStackDepth(pStack stack);
 pItem getCurDepthStackHead(pStack stack);
 void setCurDepthStackHead(pStack stack, pItem newVal);
 
-// Table functions
+// 符号表相关函数
 pTable initTable();
 void deleteTable(pTable table);
 pItem searchTableItem(pTable table, char* name);
@@ -127,7 +129,7 @@ static inline void pError(ErrorType type, int line, char* msg) {
 
 void Traversal(pNode node);
 
-// Generate symbol table functions语法单元
+// 符号表生成函数
 void ExtDef(pNode node);
 void ExtDecList(pNode node, pType specifier);
 pType Specifier(pNode node);

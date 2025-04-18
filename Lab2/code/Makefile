@@ -33,6 +33,12 @@ syntax-c: $(YFILE)
 
 # 定义的一些伪目标
 .PHONY: clean test
+
+# 定义测试目标模式规则
+TEST_FILES = $(wildcard ../test/test*.cmm)
+test_%: ../test/%.txt
+	./parser $<
+
 test_all:
 	./parser ../test/1.txt
 	./parser ../test/2.txt

@@ -1,9 +1,9 @@
-int func(int i)
+int abcd(int i)
 {
     return i;
 }
 
-int func()
+int abcd()
 {
     return 0;
 }

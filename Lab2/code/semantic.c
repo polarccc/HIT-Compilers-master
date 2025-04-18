@@ -1,3 +1,4 @@
+
 #include "semantic.h"
 #include <execinfo.h>
 #include <stdlib.h>
@@ -26,7 +27,7 @@ void print_stacktrace() {
     backtrace_symbols_fd(buffer, nptrs, 1); // 打印到 stdout
 }
 
-// Type functions
+// 新建立一个type的指针
 pType newType(Kind kind, ...) {
     pType p = (pType)malloc(sizeof(Type));
     assert(p != NULL);
@@ -60,6 +61,7 @@ pType newType(Kind kind, ...) {
     return p;
 }
 
+// 复制一个类型，返回一个新的
 pType copyType(pType src) {
     if (src == NULL) return NULL;
     pType p = (pType)malloc(sizeof(Type));
@@ -89,12 +91,13 @@ pType copyType(pType src) {
     return p;
 }
 
+// 注销一种类型
 void deleteType(pType type) {
     assert(type != NULL);
     if (type == NULL) return;
     if (already_freed(type)) {
         // printf("duplicate free of type=%p\n", (void*)type);
-        // print_stacktrace();  // 如果你还开着 print_stacktrace
+        // print_stacktrace(); 
         return;
     }
     // printf("deleteType called, type=%p, type->kind = %d\n", (void*)type, type->kind);
@@ -138,6 +141,7 @@ void deleteType(pType type) {
     free(type);
 }
 
+// 检查两种类型是否是同一种
 boolean checkType(pType type1, pType type2) {
     if (type1 == NULL || type2 == NULL) return TRUE;
     if (type1->kind == FUNCTION || type2->kind == FUNCTION) return FALSE;
@@ -190,7 +194,7 @@ void printType(pType type) {
     }
 }
 
-// FieldList functions
+//新建立一个元素标识
 pFieldList newFieldList(char* newName, pType newType) {
     pFieldList p = (pFieldList)malloc(sizeof(FieldList));
     assert(p != NULL);
@@ -200,6 +204,7 @@ pFieldList newFieldList(char* newName, pType newType) {
     return p;
 }
 
+// 复制元素标识
 pFieldList copyFieldList(pFieldList src) {
     assert(src != NULL);
     pFieldList head = NULL, cur = NULL;
@@ -219,6 +224,7 @@ pFieldList copyFieldList(pFieldList src) {
     return head;
 }
 
+// 释放一个元素标识，需要释放name，type和指向下一个节点的指针
 void deleteFieldList(pFieldList fieldList) {
     //printf("Fi_list\n");
     assert(fieldList != NULL);
@@ -231,6 +237,7 @@ void deleteFieldList(pFieldList fieldList) {
     free(fieldList);
 }
 
+// 给一个元素重新设置名称
 void setFieldListName(pFieldList p, char* newName) {
     assert(p != NULL && newName != NULL);
     if (p->name != NULL) {
@@ -340,11 +347,12 @@ pItem searchTableItem(pTable table, char* name) {
     return NULL;
 }
 
-// 无冲突返回FALSE, 有冲突返回TRUE
+// 查找Hash表发现是否有名称冲突，无冲突返回FALSE, 有冲突返回TRUE
 boolean checkTableItemConflict(pTable table, pItem item) {
-    pItem temp = searchTableItem(table, item->field->name);
+    pItem temp = searchTableItem(table, item->field->name); // 在表中根据名字查找出来的表项
     if (temp == NULL) return FALSE;
-    while (temp) {
+    while (temp) // 开始所有哈希值相同的表项，但是注意哈希值相同不代表字符串一定相同
+    {
         if (!strcmp(temp->field->name, item->field->name)) {
             if (temp->field->type->kind == STRUCTURE ||
                 item->field->type->kind == STRUCTURE)
@@ -874,7 +882,7 @@ void Dec(pNode node, pType specifier, pItem structInfo) {
                    "Illegal initialize variable in struct.");
         } else {
             // 判断赋值类型是否相符
-            //如果成功，注册该符号
+            // 如果成功，注册该符号
             pItem decitem = VarDec(node->child, specifier);
             pType exptype = Exp(node->child->next->next);
             if (checkTableItemConflict(table, decitem)) {
