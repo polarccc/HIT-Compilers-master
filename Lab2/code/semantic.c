@@ -863,10 +863,8 @@ void Dec(pNode node, pType specifier, pItem structInfo) {
             // 非结构体内，判断返回的item有无冲突，无冲突放入表中，有冲突报错delete
             pItem decitem = VarDec(node->child, specifier);
             if (checkTableItemConflict(table, decitem)) {
-                //出现冲突，报错
                 char msg[100] = {0};
-                sprintf(msg, "Redefined variable \"%s\".",
-                        decitem->field->name);
+                sprintf(msg, "Redefined variable \"%s\".",decitem->field->name);
                 pError(REDEF_VAR, node->lineNo, msg);
                 deleteItem(decitem);
             } else {
@@ -894,10 +892,7 @@ void Dec(pNode node, pType specifier, pItem structInfo) {
                 deleteItem(decitem);
             }
             if (!checkType(decitem->field->type, exptype)) {
-                //类型不相符
-                //报错
-                pError(TYPE_MISMATCH_ASSIGN, node->lineNo,
-                       "Type mismatchedfor assignment.");
+                pError(TYPE_MISMATCH_ASSIGN, node->lineNo,"Type mismatchedfor assignment.");
                 deleteItem(decitem);
             }
             if (decitem->field->type && decitem->field->type->kind == ARRAY) {
@@ -962,8 +957,7 @@ pType Exp(pNode node) {
                            !strcmp(tchild->next->name, "DOT")) {
                     if (!checkType(p1, p2)) {
                         //报错，类型不匹配
-                        pError(TYPE_MISMATCH_ASSIGN, t->lineNo,
-                               "Type mismatched for assignment.");
+                        pError(TYPE_MISMATCH_ASSIGN, t->lineNo,"Type mismatched for assignment.");
                     } else
                         returnType = copyType(p1);
                 } else {

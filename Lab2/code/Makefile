@@ -35,7 +35,7 @@ syntax-c: $(YFILE)
 .PHONY: clean test
 
 # 定义测试目标模式规则
-TEST_FILES = $(wildcard ../test/test*.cmm)
+TEST_FILES = $(wildcard ../test/test*.txt)
 test_%: ../test/%.txt
 	./parser $<
 

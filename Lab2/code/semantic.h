@@ -29,7 +29,6 @@ typedef struct type {
             char* structName;
             pFieldList field;
         } structure;
-
         struct {
             int argc;          
             pFieldList argv;   
