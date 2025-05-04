@@ -109,6 +109,10 @@ TAB [ \t]
 .   {printf("Error type A at Line %d: Mysterious characters \'%s\'\n", yylineno, yytext); lexical_error = 1;}
 %%
 
+int yywrap() {
+    return 1;
+}
+
 void yyerror(const char* msg){
     fprintf(stderr, "Error type B at line %d: %s.\n", yylineno, msg);
     return;

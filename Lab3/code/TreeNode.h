@@ -12,6 +12,7 @@
 #define FALSE 0
 
 // single node of the syntax tree
+typedef struct TreeNode TreeNode;
 typedef struct TreeNode
 {
     int lineNo; //line number of the lexical unit

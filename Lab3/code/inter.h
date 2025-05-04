@@ -2,6 +2,7 @@
 #define INTER_H
 #include "TreeNode.h"
 #include "semantic.h"
+#include "syntax.tab.h"
 
 typedef struct _operand* pOperand;
 typedef struct _interCode* pInterCode;
@@ -145,4 +146,9 @@ void translateStmtList(pNode node);
 void translateFunDec(pNode node);
 void translateExtDef(pNode node);
 void translateExtDefList(pNode node);
+
+extern void genInterCodes(TreeNode*);
+extern void printInterCode();
+extern InterCodeList* interCodeList;
+
 #endif
