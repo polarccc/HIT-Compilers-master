@@ -495,7 +495,9 @@ void deleteInterCodeList(pInterCodeList p) {
     free(p);
 }
 
-void addInterCode(pInterCodeList interCodeList, pInterCodes newCode) {
+void addInterCode(pInterCodeList interCodeList, pInterCodes newCode) 
+// 中间代码链表,组织中间代码序列
+{
     if (interCodeList->head == NULL) {
         interCodeList->head = newCode;
         interCodeList->cur = newCode;
@@ -543,7 +545,9 @@ int getSize(pType type) {
     return 0;
 }
 
-void genInterCodes(pNode node) {
+void genInterCodes(pNode node) 
+// 入口函数，启动 AST 根节点的遍历
+{
     if (node == NULL) return;
     if (!strcmp(node->name, "ExtDefList"))
         translateExtDefList(node);
@@ -645,7 +649,9 @@ void genInterCode(int kind, ...) {
             break;
     }
 }
-void translateExtDefList(pNode node) {
+void translateExtDefList(pNode node) 
+// 处理多个函数
+{
     // ExtDefList -> ExtDef ExtDefList
     //             | e
     while (node) {
@@ -661,7 +667,6 @@ void translateExtDef(pNode node) {
     //         | Specifier SEMI
     //         | Specifier FunDec CompSt
 
-    // 因为没有全局变量使用，
     // ExtDecList不涉及中间代码生成，类型声明也不涉及，所以只需要处理FunDec和CompSt
     if (!strcmp(node->child->next->name, "FunDec")) {
         translateFunDec(node->child->next);
@@ -669,7 +674,10 @@ void translateExtDef(pNode node) {
     }
 }
 
-void translateFunDec(pNode node) {
+void translateFunDec(pNode node) 
+//translateFunDec → IR_FUNCTION, IR_PARAM
+// 输出函数定义标签；将所有形参生成中间代码 PARAM x。
+{
     assert(node != NULL);
     if (interError) return;
     // FunDec -> ID LP VarList RP
@@ -691,7 +699,9 @@ void translateFunDec(pNode node) {
     }
 }
 
-void translateCompSt(pNode node) {
+void translateCompSt(pNode node) 
+// 处理函数体
+{
     assert(node != NULL);
     if (interError) return;
     // CompSt -> LC DefList StmtList RC
@@ -798,7 +808,9 @@ void translateVarDec(pNode node, pOperand place) {
     }
 }
 
-void translateStmtList(pNode node) {
+void translateStmtList(pNode node) 
+// 语句列表
+{
     if (interError) return;
     // StmtList -> Stmt StmtList
     //           | e
@@ -875,7 +887,12 @@ void translateStmt(pNode node) {
     }
 }
 
-void translateExp(pNode node, pOperand place) {
+void translateExp(pNode node, pOperand place) 
+// 递归翻译表达式，支持：
+// 四则运算 + - * /
+// 赋值表达式 a := b
+// 条件表达式 && || !
+{
     assert(node != NULL);
     if (interError) return;
     // Exp -> Exp ASSIGNOP Exp
@@ -1158,7 +1175,10 @@ void translateExp(pNode node, pOperand place) {
     }
 }
 
-void translateCond(pNode node, pOperand labelTrue, pOperand labelFalse) {
+void translateCond(pNode node, pOperand labelTrue, pOperand labelFalse) 
+// 条件跳转
+// 支持 RELOP, &&, ||, ! 等逻辑表达式
+{
     assert(node != NULL);
     if (interError) return;
     // Exp -> Exp AND Exp
@@ -1225,7 +1245,9 @@ void translateCond(pNode node, pOperand labelTrue, pOperand labelFalse) {
     }
 }
 
-void translateArgs(pNode node, pArgList argList) {
+void translateArgs(pNode node, pArgList argList) 
+// 建立参数链表 ArgList
+{
     assert(node != NULL);
     assert(argList != NULL);
     if (interError) return;

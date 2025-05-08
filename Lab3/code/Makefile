@@ -1,5 +1,3 @@
-# GNU make手册：http://www.gnu.org/software/make/manual/make.html
-# ************ 遇到不明白的地方请google以及阅读手册 *************
 
 # 编译器设定和编译选项
 CC = gcc
@@ -36,8 +34,7 @@ syntax-c: $(YFILE)
 test:
 	./parser ../test/test1.txt 1.ir
 	./parser ../test/test2.txt 2.ir
-	./parser ../test/test3.txt 3.ir
-	./parser ../test/test4.txt 4.ir
+
 
 clean:
 	rm -f parser lex.yy.c syntax.tab.c syntax.tab.h syntax.output

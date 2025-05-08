@@ -13,14 +13,8 @@ typedef struct _interCodeList* pInterCodeList;
 
 typedef struct _operand {
     enum {
-        OP_VARIABLE,
-        OP_CONSTANT,
-        OP_ADDRESS,
-        OP_LABEL,
-        OP_FUNCTION,
-        OP_RELOP,
+        OP_VARIABLE,OP_CONSTANT,OP_ADDRESS,OP_LABEL,OP_FUNCTION,OP_RELOP,
     } kind;
-
     union {
         int value;
         char* name;
@@ -152,3 +146,4 @@ extern void printInterCode();
 extern InterCodeList* interCodeList;
 
 #endif
+
